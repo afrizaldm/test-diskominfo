@@ -108,7 +108,7 @@ class OrderController extends Controller
             $data = Order::with(['detail_orders' => function ($query) {
                 $query->with(['product']);
             }])->get()
-                ->map(function ($value) use($order) {
+                ->map(function ($value) use ($order) {
                     return [
                         'id' => $order->id,
                         'products' => $value->detail_orders->map(function ($detail) {
@@ -116,7 +116,7 @@ class OrderController extends Controller
                                 'id' => $detail->id,
                                 'name' => $detail->product->name,
                                 'price' => $detail->price,
-                                'quantity' => $detail->id,
+                                'quantity' => $detail->quantity,
                                 'stock' => $detail->product->stock,
                                 'sold' => $detail->product->sold,
                                 'created_at' => $detail->created_at,
@@ -153,7 +153,7 @@ class OrderController extends Controller
                             'id' => $detail->id,
                             'name' => $detail->product->name,
                             'price' => $detail->price,
-                            'quantity' => $detail->id,
+                            'quantity' => $detail->quantity,
                             'stock' => $detail->product->stock,
                             'sold' => $detail->product->sold,
                             'created_at' => $detail->created_at,
@@ -193,18 +193,60 @@ class OrderController extends Controller
      */
     public function destroy($order)
     {
+        DB::beginTransaction();
+
         $order = Order::find($order);
 
-        if ($order) {
-
-            $detail_orders = DetailOrder::where('order_id', $order->id)->get();
-
-            $order->delete();
-            Order::where('order_id', $order->id)->delete();
-
-            return response()->json(['message' => 'Order  deleted successfully', 'data' => $order], 200);
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
         }
 
-        return response()->json(['message' => 'Order  not found'], 404);
+        $data = Order::with(['detail_orders' => function ($query) {
+            $query->with(['product']);
+        }])->get()
+            ->map(function ($value) use ($order) {
+                return [
+                    'id' => $order->id,
+                    'products' => $value->detail_orders->map(function ($detail) {
+                        return [
+                            'id' => $detail->id,
+                            'name' => $detail->product->name,
+                            'price' => $detail->price,
+                            'quantity' => $detail->quantity,
+                            'stock' => $detail->product->stock + $detail->quantity,
+                            'sold' => $detail->product->sold - $detail->quantity,
+                            'created_at' => $detail->created_at,
+                            'updated_at' => $detail->updated_at,
+                        ];
+                    }),
+                    'created_at' => $value->created_at,
+                    'updated_at' => $value->updated_at,
+                ];
+            });
+
+
+        $detail_orders = DetailOrder::where('order_id', $order->id)->get();
+
+        $order->delete();
+
+        foreach ($detail_orders as $key => $value) {
+            $detail_order = DetailOrder::find($value->id);
+            $product = Product::find($value->product_id);
+
+            if (!$detail_order) continue;
+
+            if (!$product) continue;
+
+            Product::where('id', $product->id)->update([
+                'stock' => $product->stock + $detail_order->quantity,
+                'sold' => $product->sold - $detail_order->quantity,
+            ]);
+
+            $detail_order->delete();
+        }
+
+        DB::commit();
+
+        return response()->json(['message' => 'Order  deleted successfully', 'data' => $data], 200);
     }
 }
