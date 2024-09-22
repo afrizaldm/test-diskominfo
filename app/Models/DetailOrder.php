@@ -23,7 +23,11 @@ class DetailOrder extends Model
         'product_id',
     ];
 
-    public function users() {
-        return $this->hasMany(User::class,  'city_id', 'id');
+    public function order() {
+        return $this->hasOne(Order::class,  'id', 'order_id');
+    }
+
+    public function product() {
+        return $this->hasOne(Product::class,  'id', 'product_id');
     }
 }

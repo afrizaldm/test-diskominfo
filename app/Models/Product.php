@@ -21,8 +21,4 @@ class Product extends Model
         'stock',
         'sold',
     ];
-
-    public function users() {
-        return $this->hasMany(User::class,  'city_id', 'id');
-    }
 }

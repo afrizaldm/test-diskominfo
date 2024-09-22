@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\DetailOrder;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDetailOrderRequest;
 use App\Http\Requests\UpdateDetailOrderRequest;
 

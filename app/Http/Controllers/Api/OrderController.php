@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Order;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 
@@ -13,7 +14,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $data = Order::all();
+
+        return response()->json(['message' => 'Order List', 'data' => $data],  200);
     }
 
     /**
@@ -21,7 +24,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        Order::Create();
     }
 
     /**
@@ -35,9 +38,15 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show($order)
     {
-        //
+        $order = Order::find($order);
+
+        if($order) {
+            return response()->json(['message' => 'Order Detail', 'data' => $order], 200);
+        }
+
+        return response()->json(['message' => 'Order not found'], 404);
     }
 
     /**
@@ -59,8 +68,18 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($order)
     {
-        //
+        $order = Order::find($order);
+
+        if ($order) {
+            
+            $order->delete();
+            Order::where('order_id', $order->id)->delete();
+
+            return response()->json(['message' => 'Order  deleted successfully', 'data' => $order], 200);
+        }
+
+        return response()->json(['message' => 'Order  not found'], 404);
     }
 }

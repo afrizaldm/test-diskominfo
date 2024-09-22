@@ -18,7 +18,7 @@ class Order extends Model
     protected $fillable = [
     ];
 
-    public function users() {
-        return $this->hasMany(User::class,  'city_id', 'id');
+    public function detail_orders() {
+        return $this->hasMany(DetailOrder::class,  'order_id', 'id');
     }
 }
