@@ -15,8 +15,8 @@ Pastikan Anda telah menginstal aplikasi berikut:
    Clone repository project ke komputer Anda:
 
    ```bash
-   git clone https://github.com/username/project-name.git
-   cd project-name
+   git clone https://github.com/afrizaldm/test-diskominfo.git
+   cd test-diskominfo
    ```
 
 ### 2. Install Dependencies
@@ -74,8 +74,8 @@ Instal Composer dari [Composer](https://getcomposer.org/download/).
 Masuk ke folder server lokal Anda (`htdocs` untuk XAMPP, `www` untuk WAMP), lalu kloning repository:
 
 ```bash
-git clone https://github.com/username/repo-laravel.git
-cd repo-laravel
+   git clone https://github.com/afrizaldm/test-diskominfo.git
+   cd test-diskominfo
 ```
 
 ### 2. Instal Dependensi Laravel
@@ -148,8 +148,8 @@ Ensure you have the following applications installed:
 Clone the project repository to your local machine:
 
    ```bash
-   git clone https://github.com/username/project-name.git
-   cd project-name
+   git clone https://github.com/afrizaldm/test-diskominfo.git
+   cd test-diskominfo
    ```
 
 ### 2. Install Dependencies
@@ -204,8 +204,8 @@ Install Composer from [Composer](https://getcomposer.org/download/).
 Navigate to your local server folder (`htdocs` for XAMPP, `www` for WAMP), then clone the repository:
 
 ```bash
-git clone https://github.com/username/repo-laravel.git
-cd repo-laravel
+   git clone https://github.com/afrizaldm/test-diskominfo.git
+   cd test-diskominfo
 ```
 
 ### 2. Install Laravel Dependencies
