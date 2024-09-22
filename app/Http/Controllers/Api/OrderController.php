@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\DetailOrder;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -25,7 +27,7 @@ class OrderController extends Controller
                     'products' => $value->detail_orders->map(function ($detail) {
                         return [
                             'id' => $detail->id,
-                            'name' => $detail->name,
+                            'name' => $detail->product->name,
                             'price' => $detail->price,
                             'quantity' => $detail->id,
                             'stock' => $detail->product->stock,
@@ -57,26 +59,81 @@ class OrderController extends Controller
     {
         try {
 
+            DB::beginTransaction();
+
+            $order = Order::create();
+
             $validated = $request->validate([
                 'products' => 'required|array',
             ], [
                 'products.required' => 'The name field is required.',
             ]);
 
-            $status = Order::create($request->all());
+            foreach ($request->products as $key => $value) {
+                $id = $value['id'] ?? 0;
+                $quantity = $value['quantity'] ?? 0;
 
-            $product = Order::find($status->id);
+                $product = Product::find($id);
 
-            if ($product) {
-                return response()->json(['message' => 'Product created successfully', 'data' => $product],  201);
+                if (!$product) {
+                    DB::rollBack();
+                    return response()->json(['message' => 'Product not found',], 404);
+                }
+
+                if ($product->stock < $quantity) {
+                    DB::rollBack();
+                    return response()->json(['message' => 'Product out of stock',], 400);
+                }
+
+                if ($quantity <= 0) {
+                    DB::rollBack();
+                    return response()->json(['message' => 'The quantity field must be greater than 0.',], 400);
+                }
+
+                DetailOrder::create([
+                    'product_id' => $product->id,
+                    'order_id' => $order->id,
+                    'price' => $product->price,
+                    'quantity' => $quantity,
+                ]);
+
+                Product::where('id', $product->id)->update([
+                    'stock' => $product->stock -  $quantity,
+                    'sold' => $product->sold + $quantity,
+                ]);
             }
 
-            return response()->json(['message' => 'Product created failed'],  201);
+            DB::commit();
+
+            $data = Order::with(['detail_orders' => function ($query) {
+                $query->with(['product']);
+            }])->get()
+                ->map(function ($value) use($order) {
+                    return [
+                        'id' => $order->id,
+                        'products' => $value->detail_orders->map(function ($detail) {
+                            return [
+                                'id' => $detail->id,
+                                'name' => $detail->product->name,
+                                'price' => $detail->price,
+                                'quantity' => $detail->id,
+                                'stock' => $detail->product->stock,
+                                'sold' => $detail->product->sold,
+                                'created_at' => $detail->created_at,
+                                'updated_at' => $detail->updated_at,
+                            ];
+                        }),
+                        'created_at' => $value->created_at,
+                        'updated_at' => $value->updated_at,
+                    ];
+                });
+
+            return response()->json(['message' => 'Product created successfully', 'data' => $data],  201);
         } catch (ValidationException $e) {
 
-            return response()->json([
-                'message' => 'Product not found',
-            ], 404);
+            DB::rollBack();
+
+            return response()->json(['message' => 'Product not found',], 404);
         }
     }
 
@@ -94,7 +151,7 @@ class OrderController extends Controller
                     'products' => $value->detail_orders->map(function ($detail) {
                         return [
                             'id' => $detail->id,
-                            'name' => $detail->name,
+                            'name' => $detail->product->name,
                             'price' => $detail->price,
                             'quantity' => $detail->id,
                             'stock' => $detail->product->stock,
@@ -139,6 +196,8 @@ class OrderController extends Controller
         $order = Order::find($order);
 
         if ($order) {
+
+            $detail_orders = DetailOrder::where('order_id', $order->id)->get();
 
             $order->delete();
             Order::where('order_id', $order->id)->delete();
