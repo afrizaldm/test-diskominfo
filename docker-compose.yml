@@ -18,6 +18,8 @@ services:
       if [ ! -f /app/.env ]; then
         cp /app/.env.example /app/.env;
       fi;
+
+      composer install;
       
       php artisan key:generate;
 

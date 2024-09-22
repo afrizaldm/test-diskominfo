@@ -1,66 +1,259 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel with Docker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Panduan ini menjelaskan cara menjalankan aplikasi Laravel dengan menggunakan Docker.
 
-## About Laravel
+## Requirements
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Pastikan Anda telah menginstal aplikasi berikut:
+- **Docker**: [Download dan Install Docker](https://www.docker.com/products/docker-desktop)
+- **Docker Compose**: Biasanya sudah termasuk dengan Docker Desktop, namun jika belum terinstall, bisa diunduh di [sini](https://docs.docker.com/compose/install/).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Cara Menjalankan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. **Clone Project**
 
-## Learning Laravel
+   Clone repository project ke komputer Anda:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+   ```bash
+   git clone https://github.com/username/project-name.git
+   cd project-name
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2. Install Dependencies
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Install dependensi yang diperlukan menggunakan Composer:
 
-## Laravel Sponsors
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Run Docker Containers
 
-### Premium Partners
+Jalankan container Docker menggunakan Docker Compose:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+   ```bash
+   docker-compose up
+   ```
 
-## Contributing
+### 4. Stop Docker Containers
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Untuk menghentikan container yang sedang berjalan:
 
-## Code of Conduct
+   ```bash
+   docker-compose down
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+# Instalasi Laravel Secara Manual
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Panduan ini menjelaskan cara menginstal PHP 8.2 menggunakan XAMPP, WAMP, atau solusi server lainnya, serta cara mengkloning repository Laravel dan menjalankannya.
 
-## License
+## Prasyarat
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+PC sudah terinstall software sebagai berikut
+
+- `PHP 8.2` (XAMPP, WAMP, atau server lain)
+- `Composer`
+- `Git`
+
+## Langkah-langkah Instalasi
+
+### 1. Instal PHP 8.2
+- **XAMPP**: Unduh dan instal dari [XAMPP](https://www.apachefriends.org/download.html).
+- **WAMP**: Unduh dan instal dari [WAMP](https://www.wampserver.com/en/).
+
+<!-- Aktifkan modul **Apache** dan **MySQL** dari Control Panel (XAMPP/WAMP). -->
+
+### 2. Instal Composer
+Instal Composer dari [Composer](https://getcomposer.org/download/).
+
+## Langkah Kloning Projek
+
+### 1. Kloning Repository Laravel
+Masuk ke folder server lokal Anda (`htdocs` untuk XAMPP, `www` untuk WAMP), lalu kloning repository:
+
+```bash
+git clone https://github.com/username/repo-laravel.git
+cd repo-laravel
+```
+
+### 2. Instal Dependensi Laravel
+Jalankan perintah berikut untuk menginstal semua dependensi:
+
+```bash
+composer install
+```
+
+### 3. Konfigurasi Environment File
+Salin `.env.example` dan rubah nama filenya menjadi `.env`
+
+```bash
+cp .env.example .env
+```
+
+Atur koneksi database di file `.env`
+
+```bash
+DB_CONNECTION=sqlite
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=nama_database
+# DB_USERNAME=root
+# DB_PASSWORD=
+```
+
+### 4. Generate Application Key
+
+Perintah ini menghasilkan kunci enkripsi unik untuk mengamankan data sensitif seperti sesi dan token. Kunci ini akan disimpan di dalam file `.env`.
+
+```bash
+php artisan key:generate
+```
+
+### 5. Migrasi Database dan Seeder
+
+Langkah ini menjalankan perintah untuk membuat struktur tabel dalam database dan mengisi tabel dengan data awal. Dengan menjalankan perintah berikut, Anda akan memastikan bahwa semua tabel yang diperlukan dibuat dan data yang bersifat acak akan ditambahkan ke dalam tabel.
+
+```bash
+php artisan migrate --seed
+```
+
+## Menjalankan Server
+
+Menajalankan Server di lokal dengan perintah berikut
+
+```bash
+php artisan serve
+```
+
+Akses aplikasi di `http://localhost:8000`.
+
+---
+
+# Laravel with Docker
+
+This guide explains how to run a Laravel application using Docker.
+
+## Requirements
+
+Ensure you have the following applications installed:
+- **Docker**: [Download and Install Docker](https://www.docker.com/products/docker-desktop)
+- **Docker Compose**: It usually comes with Docker Desktop, but if not installed, you can download it [here](https://docs.docker.com/compose/install/).
+
+## How to Run
+
+### 1. **Clone the Project**
+
+Clone the project repository to your local machine:
+
+   ```bash
+   git clone https://github.com/username/project-name.git
+   cd project-name
+   ```
+
+### 2. Install Dependencies
+
+Install the necessary dependencies using Composer:
+
+   ```bash
+   composer install
+   ```
+
+### 3. Run Docker Containers
+
+Run the Docker containers using Docker Compose:
+
+   ```bash
+   docker-compose up
+   ```
+
+### 4. Stop Docker Containers
+
+To stop the running containers:
+
+   ```bash
+   docker-compose down
+   ```
+
+---
+
+# Laravel Installation
+
+This guide explains how to install PHP 8.2 using XAMPP, WAMP, or other server solutions, clone a Laravel repository, and run it locally.
+
+## Prerequisites
+- `PHP 8.2` (XAMPP, WAMP, or other server solutions)
+- `Composer`
+- `Git`
+
+## Installation Steps
+
+### 1. Install PHP 8.2
+- **XAMPP**: Download and install from [XAMPP](https://www.apachefriends.org/download.html).
+- **WAMP**: Download and install from [WAMP](https://www.wampserver.com/en/).
+
+<!-- Enable the **Apache** and **MySQL** modules from the Control Panel (XAMPP/WAMP). -->
+
+### 2. Install Composer
+Install Composer from [Composer](https://getcomposer.org/download/).
+
+## Projcet Cloning Steps
+
+### 1. Clone the Laravel Repository
+Navigate to your local server folder (`htdocs` for XAMPP, `www` for WAMP), then clone the repository:
+
+```bash
+git clone https://github.com/username/repo-laravel.git
+cd repo-laravel
+```
+
+### 2. Install Laravel Dependencies
+Run the following command to install all dependencies:
+
+```bash
+composer install
+```
+
+### 3. Configure Environment File
+Copy the `.env.example` file and rename it to `.env`
+
+```bash
+cp .env.example .env
+```
+
+Set the database connection in the `.env` file:
+
+```bash
+DB_CONNECTION=sqlite
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=database_name
+# DB_USERNAME=root
+# DB_PASSWORD=
+```
+
+### 4. Generate Application Key
+
+This command generates a unique encryption key for securing sensitive data like sessions and tokens. The key will be stored in the `.env` file.
+
+```bash
+php artisan key:generate
+```
+
+### 5. Migrate Database and Run Seeder
+
+This step runs the command to create the structure of tables in the database and populate them with initial data. By executing the following command, you ensure that all necessary tables are created and random data will be added to the tables.
+
+```bash
+php artisan migrate --seed
+```
+## Run the Local Server
+
+Run the Local Server:
+
+```bash
+php artisan serve
+```
+
+Access the application at `http://localhost:8000`
