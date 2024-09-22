@@ -19,7 +19,6 @@ class DetailOrderFactory extends Factory
         $fake = fake('id_ID');
 
         return [
-            'name' => $fake->name(),
             'price' => $fake->numerify('##00000'),
             'quantity' => $fake->numerify('#'),
             'order_id' => 0,

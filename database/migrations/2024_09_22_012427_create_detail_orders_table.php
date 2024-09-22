@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('detail_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
             $table->bigInteger('price')->default(0);
             $table->bigInteger('quantity')->default(0);
             $table->bigInteger('order_id');

@@ -16,7 +16,6 @@ class DetailOrder extends Model
     // protected $keyType = 'string';
 
     protected $fillable = [
-        'name',
         'price',
         'quantity',
         'order_id',

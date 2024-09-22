@@ -28,7 +28,6 @@ class DetailOrderSeeder extends Seeder
                 $randomProduct = $products->random();
 
                 DetailOrder::factory(3)->create([
-                    'name' => $randomProduct->name,
                     'price' => $randomProduct->price,
                     'order_id' => $value->id,
                     'product_id' => $randomProduct->id,
