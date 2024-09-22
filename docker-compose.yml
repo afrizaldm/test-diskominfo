@@ -23,12 +23,10 @@ services:
       
       php artisan key:generate;
 
-      if [ -f /app/database/database.sqlite ]; then
-        rm /app/database/database.sqlite;
+      if [ ! -f /app/database/database.sqlite ]; then
+        touch /app/database/database.sqlite;
+        php artisan migrate;
       fi;
-
-      touch /app/database/database.sqlite;
-      php artisan migrate;
 
       php artisan serve --host=0.0.0.0 --port=8000
       "
