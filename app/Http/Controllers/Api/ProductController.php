@@ -65,10 +65,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::find($product);
+        $data = Product::find($product);
 
-        if ($product) {
-            return response()->json(['message' => 'Product Detail', 'data' => $product], 200);
+        if ($data) {
+            return response()->json(['message' => 'Product Detail', 'data' => $data], 200);
         }
 
         return response()->json(['message' => 'Product not found'], 404);
