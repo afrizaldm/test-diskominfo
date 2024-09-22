@@ -203,10 +203,10 @@ class OrderController extends Controller
 
         $data = Order::with(['detail_orders' => function ($query) {
             $query->with(['product']);
-        }])->get()
-            ->map(function ($value) use ($order) {
+        }])->where('id', $order->id)->get()
+            ->map(function ($value) {
                 return [
-                    'id' => $order->id,
+                    'id' => $value->id,
                     'products' => $value->detail_orders->map(function ($detail) {
                         return [
                             'id' => $detail->id,
@@ -222,7 +222,7 @@ class OrderController extends Controller
                     'created_at' => $value->created_at,
                     'updated_at' => $value->updated_at,
                 ];
-            });
+            })->first();
 
 
         $detail_orders = DetailOrder::where('order_id', $order->id)->get();
